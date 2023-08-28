@@ -8,7 +8,7 @@ const {
   removeContact,
   addContact,
   updateContact,
-} = require("../../models/contacts")
+} = require("../../mongoose/index")
 
 
 
