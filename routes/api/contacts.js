@@ -1,35 +1,30 @@
-const express = require('express')
+const express = require('express');
 
-const router = express.Router()
+const router = express.Router();
 
-const {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
-} = require("../../mongoose/index")
+const ContactControllers = require('../../controllers/contact');
+
+const jsonParser = express.json();
 
 
+router.get('/', ContactControllers.listContacts, (req, res, next) => {
+  res.json({ message: 'template message' });
+});
 
-router.get('/', listContacts, async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/:contactId', ContactControllers.getContactById, (req, res, next) => {
+  res.json({ message: 'template message' });
+});
 
-router.get('/:contactId', getContactById, async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.post('/', jsonParser, ContactControllers.removeContact, (req, res, next) => {
+  res.json({ message: 'template message' });
+});
 
-router.post('/', removeContact, async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.delete('/:contactId', ContactControllers.addContact, (req, res, next) => {
+  res.json({ message: 'template message' });
+});
 
-router.delete('/:contactId', addContact, async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.put('/:contactId', jsonParser, ContactControllers.updateContact, (req, res, next) => {
+  res.json({ message: 'template message' });
+});
 
-router.put('/:contactId', updateContact, async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
-
-module.exports = router
+module.exports = router;

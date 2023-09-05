@@ -6,6 +6,8 @@ const contactsRouter = require('./routes/api/contacts.js');
 
 const app = express();
 
+const routes = require("./routes/api/index.js");
+
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 const globalErrorHandler = require('./middlewares/globalErrorHandler');

@@ -1,49 +1,33 @@
-const { randomUUID } = require("crypto");
-const fs = require("fs/promises");
-const path = require("path");
-const contactPath = path.join(process.cwd(), "models", "contacts.json");
+// contactsService.js
+const Contact = require('../models/contacts');
 
 const listContactsService = async () => {
-  const jsonData = await fs.readFile(contactPath, "utf-8");
-  return JSON.parse(jsonData);
+  return await Contact.find();
 };
 
 const getContactByIdService = async (id) => {
-  const contacts = await listContactsService();
-  const contact = contacts.find((contact) => contact.id === id);
-  if (!contact) {
-    throw new Error("This contact does not exist");
-  }
-  return contact;
+  return await Contact.findById(id);
 };
 
 const removeContactService = async (id) => {
-  const contacts = await listContactsService();
-  const updatedContacts = contacts.filter((contact) => contact.id !== id);
-  await fs.writeFile(contactPath, JSON.stringify(updatedContacts, null, 2));
+  return await Contact.findByIdAndRemove(id);
 };
 
 const addContactService = async (newContact) => {
-  const contacts = await listContactsService();
-
-  const id = randomUUID();
-  const contactWithId = { ...newContact, id };
-  contacts.push(contactWithId);
-
-  await fs.writeFile(contactPath, JSON.stringify(contacts, null, 2));
-
-  return contactWithId;
+  return await Contact.create(newContact);
 };
 
 const updateContactService = async (contactID, body) => {
-  const contacts = await listContactsService();
-  const contactIndex = contacts.findIndex((contact) => contact.id === contactID);
-  if (contactIndex === -1) {
+  const updatedContact = await Contact.findByIdAndUpdate(
+    contactID,
+    { $set: body },
+    { new: true }
+  );
+
+  if (!updatedContact) {
     throw new Error('This contact does not exist');
   }
-  const updatedContact = { ...contacts[contactIndex], ...body };
-  contacts[contactIndex] = updatedContact;
-  await fs.writeFile(contactPath, JSON.stringify(contacts, null, 2));
+
   return updatedContact;
 };
 
