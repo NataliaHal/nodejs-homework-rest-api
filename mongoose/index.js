@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const dbURI = process.env.MONGODB_URI;
+const {MONGODB_URI} = process.env;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Database connection successful');

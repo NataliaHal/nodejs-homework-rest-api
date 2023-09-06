@@ -1,6 +1,6 @@
-const express = require('express');
-
 require('dotenv').config();
+
+const express = require('express');
 
 const connectDB = require('./db/connectDB');
 
@@ -14,8 +14,7 @@ app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
 });
 
-
-const router = Router();
+const router = express.Router();
 
 const contactsRouter = require("./contacts");
 
