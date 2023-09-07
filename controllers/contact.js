@@ -1,29 +1,70 @@
-function listContacts(req, res, next) {
-    res.send("Get Contacts");
-};
+const Contact = require('../models/contacts');
 
-function getContactById(req, res, next) {
-    const { id } = req.params;
+async function listContacts(req, res, next) {
+  try {
+    const contacts = await Contact.find();
+    res.json(contacts);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
-    res.send(`Get Contact by id ${id} `);
-};
+async function getContactById(req, res, next) {
+  const { id } = req.params;
 
-function removeContact(req, res, next) {
-    const { id } = req.params;
-    res.send(`Remove Contact by id ${id}`);
-};
+  try {
+    const contact = await Contact.findById(id);
+    if (contact) {
+      res.json(contact);
+    } else {
+      res.status(404).json({ message: 'Contact not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
+async function removeContact(req, res, next) {
+  const { id } = req.params;
 
-function addContact(req, res, next) {
-    const { id } = req.params;
-    res.send(`Add Contact by id ${id}`);
-};
+  try {
+    const result = await Contact.findByIdAndRemove(id);
+    if (result) {
+      res.json({ message: 'Contact removed' });
+    } else {
+      res.status(404).json({ message: 'Contact not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
+async function addContact(req, res, next) {
+  const newContact = req.body;
 
-function updateContact(req, res, next) {
-     const { id } = req.params;
-    res.send(`Update Contact by id ${id}`);
-};
+  try {
+    const contact = await Contact.create(newContact);
+    res.status(201).json(contact);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+async function updateContact(req, res, next) {
+  const { id } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const updatedContact = await Contact.findByIdAndUpdate(id, updatedData, { new: true });
+    if (updatedContact) {
+      res.json(updatedContact);
+    } else {
+      res.status(404).json({ message: 'Contact not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 module.exports = {
   listContacts,
@@ -31,4 +72,4 @@ module.exports = {
   removeContact,
   addContact,
   updateContact,
-}
+};
