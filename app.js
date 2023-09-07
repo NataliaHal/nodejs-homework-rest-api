@@ -2,14 +2,16 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 
-const contactsRouter = require('./routes/api/contacts.js');
+const contactsRouter = require('./routes/api/contacts');
 
 const app = express();
+
+const routes = require("./routes/api/index");
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 const globalErrorHandler = require('./middlewares/globalErrorHandler');
-const notFoundHandler = require('./middlewares/notFoundHandler.js');
+const notFoundHandler = require('./middlewares/notFoundHandler');
 
 app.use(logger(formatsLogger));
 app.use(cors());
