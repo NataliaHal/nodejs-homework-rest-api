@@ -1,6 +1,12 @@
-require('dotenv').config();
+// require('dotenv').config();
 
 const express = require('express');
+
+const router = express.Router();
+
+const usersRouter = require('./users');
+
+const contactsRouter = require('./contacts');
 
 const connectDB = require('./db/connectDB');
 
@@ -14,10 +20,8 @@ app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
 });
 
-const router = express.Router();
-
-const contactsRouter = require("./contacts");
-
 router.use("/contacts", contactsRouter);
+
+router.use("/users", usersRouter);
 
 module.exports = router;
