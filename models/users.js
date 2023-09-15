@@ -5,6 +5,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Set password for user'],
     },
+      token: {
+    type: String,
+    default: null,
+  },
     email: {
         type: String,
         required: [true, 'Email is required'],

@@ -2,6 +2,8 @@
 
 const express = require('express');
 
+const users = require('../../middlewares/users');
+
 const router = express.Router();
 
 const usersRouter = require('./users');
@@ -20,7 +22,7 @@ app.listen(PORT, () => {
     console.log(`Server is up and running on port ${PORT}`);
 });
 
-router.use("/contacts", contactsRouter);
+router.use("/contacts", users, contactsRouter);
 
 router.use("/users", usersRouter);
 

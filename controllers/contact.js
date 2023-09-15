@@ -2,12 +2,27 @@ const Contact = require('../models/contacts');
 
 async function listContacts(req, res, next) {
   try {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find({owner: req.user.id}).exec();
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+async function create(req, res, next) { 
+  const newContact = {
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
+    owner: req.user.id
+  };
+  try {
+    const contact = await Contact.create(newContact);
+    res.status(201).json(contact);
+  } catch (error) { 
+    next(error);
+  }
+};
 
 async function getContactById(req, res, next) {
   const { id } = req.params;
@@ -16,7 +31,12 @@ async function getContactById(req, res, next) {
     const contact = await Contact.findById(id);
     if (contact) {
       res.json(contact);
-    } else {
+    }
+    if (contact.owner.toString() !== req.user.id) {
+     return res.status(403).json({ message: 'You have no access to this contact' });
+    }
+
+    else {
       res.status(404).json({ message: 'Contact not found' });
     }
   } catch (error) {
@@ -68,6 +88,7 @@ async function updateContact(req, res, next) {
 
 module.exports = {
   listContacts,
+  create,
   getContactById,
   removeContact,
   addContact,

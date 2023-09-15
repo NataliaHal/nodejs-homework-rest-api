@@ -8,6 +8,8 @@ const jsonParser = express.json();
 
 router.get('/', ContactControllers.listContacts);
 
+router.post('/', jsonParser, ContactControllers.create);
+
 router.get('/:contactId', ContactControllers.getContactById);
 
 router.post('/', jsonParser, ContactControllers.addContact);

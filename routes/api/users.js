@@ -3,6 +3,11 @@ const { check, validationResult } = require('express-validator');
 const usersController = require('../../controllers/users');
 const router = express.Router();
 const jsonParser = express.json();
+const { schemas } = require("../../models/users");
+
+const users = require("../../middlewares/users")
+
+router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post(
   "/register", jsonParser,
@@ -19,6 +24,10 @@ router.post(
     usersController.register(req, res);
   }
 );
+
+router.post("/login", users, jsonParser, AuthController.login);
+
+router.post("/logout", AuthController.logout);
 
 module.exports = router;
 
