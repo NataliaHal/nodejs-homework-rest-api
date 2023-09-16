@@ -1,21 +1,21 @@
-const express = require('express');
+const express = require("express");
 
 const router = express.Router();
 
-const ContactControllers = require('../../controllers/contact');
+const ContactControllers = require("../../controllers/contact");
 
 const jsonParser = express.json();
 
-router.get('/', ContactControllers.listContacts);
+router.get("/", ContactControllers.listContacts);
 
-router.post('/', jsonParser, ContactControllers.create);
+router.post("/", jsonParser, ContactControllers.create);
 
-router.get('/:contactId', ContactControllers.getContactById);
+router.get("/:contactId", ContactControllers.getContactById);
 
-router.post('/', jsonParser, ContactControllers.addContact);
+router.post("/", jsonParser, ContactControllers.addContact);
 
-router.delete('/:contactId', ContactControllers.removeContact);
+router.delete("/:contactId", ContactControllers.removeContact);
 
-router.put('/:contactId', jsonParser, ContactControllers.updateContact);
+router.put("/:contactId", jsonParser, ContactControllers.updateContact);
 
 module.exports = router;

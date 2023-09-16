@@ -1,19 +1,20 @@
-const express = require('express');
-const { check, validationResult } = require('express-validator');
-const usersController = require('../../controllers/users');
+const express = require("express");
+const { check, validationResult } = require("express-validator");
+const usersController = require("../../controllers/users");
 const router = express.Router();
 const jsonParser = express.json();
 const { schemas } = require("../../models/users");
 
-const users = require("../../middlewares/users")
+const users = require("../../middlewares/users");
 
 router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post(
-  "/register", jsonParser,
+  "/register",
+  jsonParser,
   [
-    check('email').isEmail().withMessage('Invalid email address'),
-    check('password').notEmpty().withMessage('Password is required'),
+    check("email").isEmail().withMessage("Invalid email address"),
+    check("password").notEmpty().withMessage("Password is required"),
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -30,4 +31,3 @@ router.post("/login", users, jsonParser, AuthController.login);
 router.post("/logout", AuthController.logout);
 
 module.exports = router;
-
