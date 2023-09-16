@@ -2,11 +2,11 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/users");
 
-function users(req, res, next) {
+function auth(req, res, next) {
   const usersHeader = req.headers.authorization || "";
   const [bearer, token] = usersHeader.split("", 2);
 
-  if (bearer !== "Bearer") {
+  if (bearer !== "Bearer" || !token) {
     return res.status(401).send({ message: "No token provided." });
   }
 
@@ -18,11 +18,11 @@ function users(req, res, next) {
       return next(err);
     }
     try {
-        const user = await User.findById(decod.id).exec();
-        
-        if (user.token !== token) { 
-            return res.status(401).send({ message: "Invalid token." });
-        }
+      const user = await User.findById(decod.id).exec();
+
+      if (user.token !== token) {
+        return res.status(401).send({ message: "Invalid token." });
+      }
 
       req.user = { id: decod.id, name: decoded.name };
       next();
@@ -32,4 +32,4 @@ function users(req, res, next) {
   });
 }
 
-module.exports = users;
+module.exports = auth;
