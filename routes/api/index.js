@@ -1,23 +1,29 @@
-require('dotenv').config();
+// require('dotenv').config();
 
-const express = require('express');
+const express = require("express");
 
-const connectDB = require('./db/connectDB');
+const users = require("../../middlewares/users");
 
-const app = require('../../app');
+const router = express.Router();
+
+const usersRouter = require("./users");
+
+const contactsRouter = require("./contacts");
+
+const connectDB = require("./db/connectDB");
+
+const app = require("../../app");
 
 const { PORT, DB_URI } = process.env;
 
 connectDB(DB_URI);
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on port ${PORT}`);
+  console.log(`Server is up and running on port ${PORT}`);
 });
 
-const router = express.Router();
+router.use("/contacts", users, contactsRouter);
 
-const contactsRouter = require("./contacts");
-
-router.use("/contacts", contactsRouter);
+router.use("/users", usersRouter);
 
 module.exports = router;

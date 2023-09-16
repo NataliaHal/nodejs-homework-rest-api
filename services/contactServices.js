@@ -1,5 +1,5 @@
 // contactsService.js
-const Contact = require('../models/contacts');
+const Contact = require("../models/contacts");
 
 const listContactsService = async () => {
   return await Contact.find();
@@ -25,7 +25,7 @@ const updateContactService = async (contactID, body) => {
   );
 
   if (!updatedContact) {
-    throw new Error('This contact does not exist');
+    throw new Error("This contact does not exist");
   }
 
   return updatedContact;

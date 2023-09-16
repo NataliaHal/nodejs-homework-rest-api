@@ -1,6 +1,6 @@
-require('dotenv').config();
+// const dotenv = require('dotenv').config();
 
-require('./db');
+// const db = require('./routes/api/db');
 
 const app = require('./app');
 
