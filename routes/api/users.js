@@ -1,37 +1,33 @@
 const express = require("express");
-
-const {
-  registerController,
-  loginController,
-  getCurrentController,
-  logoutController,
-  updateSubscriptionController,
-} = require("../../controllers/users");
-
-const { validateBody } = require("../../middlewares/validateBody");
-
-
-const {
-  registerSchema,
-  loginSchema,
-  updateSubscriptionSchema,
-} = require("../../schemas");
-
+const { check, validationResult } = require("express-validator");
+const usersController = require("../../controllers/users");
 const router = express.Router();
+const jsonParser = express.json();
+const { schemas } = require("../../models/users");
 
-router.post("/register", validateBody(registerSchema), registerController);
+const users = require("../../middlewares/users");
 
-router.post("/login", validateBody(loginSchema), loginController);
+// router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
-router.get("/current", authenticate, getCurrentController);
+router.post(
+  "/register",
+  jsonParser,
+  [
+    check("email").isEmail().withMessage("Invalid email address"),
+    check("password").notEmpty().withMessage("Password is required"),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
 
-router.post("/logout", authenticate, logoutController);
-
-router.patch(
-  "/",
-  authenticate,
-  validateBody(updateSubscriptionSchema),
-  updateSubscriptionController
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    usersController.register(req, res);
+  }
 );
+
+// router.post("/login", users, jsonParser, AuthController.login);
+
+// router.post("/logout", AuthController.logout);
 
 module.exports = router;
