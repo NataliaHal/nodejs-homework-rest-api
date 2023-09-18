@@ -1,33 +1,36 @@
 const express = require("express");
-const { check, validationResult } = require("express-validator");
-const usersController = require("../../controllers/users");
+
+const {
+  registerController,
+  loginController,
+  getCurrentController,
+  logoutController,
+  updateSubscriptionController,
+} = require("../../controllers/users");
+
+const { validateBody, authenticate } = require("../../middlewares");
+
+const {
+  registerSchema,
+  loginSchema,
+  updateSubscriptionSchema,
+} = require("../../schemas");
+
 const router = express.Router();
-const jsonParser = express.json();
-const { schemas } = require("../../models/users");
 
-const users = require("../../middlewares/users");
+router.post("/register", validateBody(registerSchema), registerController);
 
-router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
+router.post("/login", validateBody(loginSchema), loginController);
 
-router.post(
-  "/register",
-  jsonParser,
-  [
-    check("email").isEmail().withMessage("Invalid email address"),
-    check("password").notEmpty().withMessage("Password is required"),
-  ],
-  (req, res) => {
-    const errors = validationResult(req);
+router.get("/current", authenticate, getCurrentController);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    usersController.register(req, res);
-  }
+router.post("/logout", authenticate, logoutController);
+
+router.patch(
+  "/",
+  authenticate,
+  validateBody(updateSubscriptionSchema),
+  updateSubscriptionController
 );
-
-router.post("/login", users, jsonParser, AuthController.login);
-
-router.post("/logout", AuthController.logout);
 
 module.exports = router;
