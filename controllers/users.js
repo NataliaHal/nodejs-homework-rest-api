@@ -1,6 +1,5 @@
 const express = require("express");
-const Joi = require("joi");
-const User = require("../models/users");
+
 const {
   registerUser,
   loginUser,
