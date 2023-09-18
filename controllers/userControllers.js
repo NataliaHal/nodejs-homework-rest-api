@@ -61,7 +61,7 @@ async function loginUser(req, res, next) {
       },
       process.env.JWT_TOKEN,
       {
-        expiresIn: 3600,
+        expiresIn: 86400,
       }
     );
 

@@ -8,7 +8,8 @@ const {
   updateSubscriptionController,
 } = require("../../controllers/users");
 
-const { validateBody, authenticate } = require("../../middlewares");
+const { validateBody } = require("../../middlewares/validateBody");
+
 
 const {
   registerSchema,
