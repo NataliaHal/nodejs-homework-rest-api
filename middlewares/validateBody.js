@@ -1,14 +1,15 @@
-const HttpError = require("../utils/validation/HttpError");
+const { HttpError } = require("../utils/validation/HttpError");
 
-function validateBody(schema) {
-  return (req, res, next) => {
-    const { error } = validationSchema.validate(req.body);
-
+const validateBody = (schema) => {
+  const func = (req, res, next) => {
+    const { error } = schema.validate(req.body);
     if (error) {
-      return next(new HttpError(422, error));
+      next(HttpError(400, error.message));
     }
     next();
   };
+
+  return func;
 };
 
 module.exports = validateBody;

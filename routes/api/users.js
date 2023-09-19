@@ -10,7 +10,7 @@ const users = require("../../middlewares/users");
 const AuthController = require("../../controllers/authController");
 
 
-// router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
+router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post(
   "/register",

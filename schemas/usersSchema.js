@@ -2,7 +2,7 @@ const Joi = require("joi");
 const {
   emailRegexp,
   subscriptionList,
-} = require("../utils/validation/subscriptionList");
+} = require("../helpers");
 
 const userSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
