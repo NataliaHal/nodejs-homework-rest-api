@@ -1,5 +1,5 @@
 const HttpError = require("./HttpError");
-const { emailRegexp } = require("./regexps");
+const { emailRegexp } = require("./regexp");
 const { subscriptionList } = require("./subscriptionList");
 
 module.exports = {
