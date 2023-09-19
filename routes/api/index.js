@@ -8,6 +8,8 @@ const usersRouter = require("./users");
 
 const contactsRouter = require("./contacts");
 
+const usersAvatarRouter = require("./usersAvatar");
+
 const connectDB = require("./db/connectDB");
 
 const app = require("../../app");
@@ -23,5 +25,7 @@ app.listen(PORT, () => {
 router.use("/contacts", users, contactsRouter);
 
 router.use("/users", usersRouter);
+
+router.use("/usersAvatar", users, usersAvatarRouter);
 
 module.exports = router;

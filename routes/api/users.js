@@ -7,6 +7,9 @@ const { schemas } = require("../../models/users");
 
 const users = require("../../middlewares/users");
 
+const AuthController = require("../../controllers/authController");
+
+
 // router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post(
@@ -26,8 +29,8 @@ router.post(
   }
 );
 
-// router.post("/login", users, jsonParser, AuthController.login);
+router.post("/login", users, jsonParser, AuthController.login);
 
-// router.post("/logout", AuthController.logout);
+router.post("/logout", AuthController.logout);
 
 module.exports = router;
