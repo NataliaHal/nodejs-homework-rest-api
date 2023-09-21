@@ -4,8 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
 async function register(req, res, next) {
-  const { name, email, password } = req.body;
-
+  const { email, password } = req.body;
   try {
     const user = await User.findOne({ email }).exec();
 
@@ -15,9 +14,11 @@ async function register(req, res, next) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    await User.create({ name, email, password: passwordHash });
+    const newUser = await User.create({ email, password: passwordHash });
 
-    res.status(201).send({ message: "Registration successfully" });
+    res.status(201).send({
+      user: { email: newUser.email, subscription: newUser.subscription },
+    });
   } catch (error) {
     next(error);
   }

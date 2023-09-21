@@ -1,8 +1,9 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+require("dotenv").config(); 
 
-const { PORT } = process.env;
+// const { PORT } = process.env;
 
 const usersRouter = require("./routes/api/users");
 const contactsRouter = require("./routes/api/contacts");
@@ -13,8 +14,8 @@ const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
-const globalErrorHandler = require("./middlewares/globalErrorHandler");
-const notFoundHandler = require("./middlewares/notFoundHandler");
+// const globalErrorHandler = require("./middlewares/globalErrorHandler");
+// const notFoundHandler = require("./middlewares/notFoundHandler");
 
 app.use(logger(formatsLogger));
 app.use(cors());
@@ -28,14 +29,15 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
+  const { message = 'server err', statusCode = 500} = err;
+  res.status(statusCode).json({ message });
 });
 
-app.use(notFoundHandler);
-app.use(globalErrorHandler);
+// app.use(notFoundHandler);
+// app.use(globalErrorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server is up and running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is up and running on port ${PORT}`);
+// });
 
 module.exports = app;

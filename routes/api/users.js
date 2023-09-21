@@ -3,7 +3,9 @@ const { check, validationResult } = require("express-validator");
 const usersController = require("../../controllers/users");
 const router = express.Router();
 const jsonParser = express.json();
-const { schemas } = require("../../models/users");
+const schemas = require("../../schemas");
+const validateBody = require("../../middlewares/validateBody");
+const ctrl = require("../../controllers/authController");
 
 const users = require("../../middlewares/users");
 
