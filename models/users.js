@@ -20,10 +20,10 @@ const userSchema = new mongoose.Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
-    avatar: {
+    avatarURL: {
       type: String,
-      default: null,
-    },
+      required: true,
+    }
   },
   { timestamps: true, versionKey: false }
 );
