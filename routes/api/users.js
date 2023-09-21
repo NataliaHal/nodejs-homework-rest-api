@@ -6,6 +6,7 @@ const jsonParser = express.json();
 const schemas = require("../../schemas");
 const { validateBody, authenticate, upload } = require("../../middlewares");
 const ctrl = require("../../controllers/authController");
+const updateAvatar = require("../../controllers/authController");
 
 var Jimp = require("jimp");
 
@@ -39,6 +40,7 @@ router.post("/logout", AuthController.logout);
 router.patch(
   "/avatars",
   authenticate,
+  ctrl.updateAvatar,
   upload.single("avatar"),
   async (req, res) => {
     const { _id } = req.user;
