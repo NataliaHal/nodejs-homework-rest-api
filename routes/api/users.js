@@ -1,6 +1,5 @@
 const express = require("express");
 const { check, validationResult } = require("express-validator");
-const usersController = require("../../controllers/userControllers");
 const router = express.Router();
 const jsonParser = express.json();
 const schemas = require("../../schemas");
@@ -10,6 +9,7 @@ const updateAvatar = require("../../controllers/authController");
 const avatarsDir = require('../../controllers/authController');
 const User = require("../../models/users"); 
 const fs = require("../../controllers/authController");
+const Joi = require("joi");
 
 
 var Jimp = require("jimp");
