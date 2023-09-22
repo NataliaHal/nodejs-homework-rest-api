@@ -23,13 +23,12 @@ const userSchema = new mongoose.Schema(
     avatarURL: {
       type: String,
       required: true,
-    }
+    },
   },
   { timestamps: true, versionKey: false }
 );
 
 userSchema.post("save", async function (error, _, next) {
-  console.log(error);
   next();
 });
 

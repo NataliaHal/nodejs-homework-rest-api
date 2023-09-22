@@ -8,9 +8,10 @@ const { validateBody, authenticate, upload } = require("../../middlewares");
 const ctrl = require("../../controllers/authController");
 const updateAvatar = require("../../controllers/authController");
 
+
 var Jimp = require("jimp");
 
-const users = require("../../middlewares/users");
+// const { Users } = require("../../middlewares/users");
 
 const AuthController = require("../../controllers/authController");
 

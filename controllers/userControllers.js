@@ -15,7 +15,7 @@ async function registerUser(req, res, next) {
 
     const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email });
     if (existingUser) {
       return res.status(409).json({ message: "Email in use" });
     }
@@ -39,7 +39,7 @@ async function loginUser(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email: email }).exec();
 
     if (!user) {
       return res

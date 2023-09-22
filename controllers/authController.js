@@ -6,16 +6,16 @@ const fs = require("fs/promises");
 
 const { User } = require("../models/users");
 
-const { HttpError, ctrlWrapper } = require("../helpers");
+// const { HttpError, ctrlWrapper } = require("../helpers");
 
-const { SECRET_KEY } = process.env;
+// const { SECRET_KEY } = process.env;
 
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 async function register(req, res, next) {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email: email }).exec();
 
     if (user !== null) {
       return res.status(409).send({ message: "User already registered" });
@@ -42,10 +42,9 @@ async function login(req, res, next) {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email: email }).exec();
 
-    if (user === null) {
-      console.log("Email");
+    if (!user) {
       return res
         .status(401)
         .send({ message: "Email or password is incorrect" });
@@ -54,7 +53,6 @@ async function login(req, res, next) {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch !== true) {
-      console.log("Password");
       return res
         .status(401)
         .send({ message: "Email or password is incorrect" });
@@ -89,7 +87,7 @@ async function logout(req, res, next) {
   }
 }
 
-async function updateAvatar(req, res, next) {
+const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;
