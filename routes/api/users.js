@@ -18,16 +18,7 @@ const AuthController = require("../../controllers/authController");
 
 router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
-router.post("/register", jsonParser, (req, res) => {
-  const { error } = registerSchema.validate(req.body);
-
-  if (error) {
-    return res
-      .status(400)
-      .json({ errors: error.details.map((err) => err.message) });
-  }
-  ctrl.register(req, res);
-});
+router.post("/register", jsonParser, ctrl.register);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 

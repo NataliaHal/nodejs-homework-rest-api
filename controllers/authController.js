@@ -3,15 +3,30 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
 const fs = require("fs/promises");
+const Joi = require("joi"); // Додавання Joi
 
-const  User  = require("../models/users");
+const User = require("../models/users");
 
 const ctrlWrapper = require("../helpers/ctrlWrapper");
 
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
+const registerSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
+
 async function register(req, res, next) {
   const { email, password } = req.body;
+
+  const { error } = registerSchema.validate(req.body);
+
+  if (error) {
+    return res
+      .status(400)
+      .json({ errors: error.details.map((err) => err.message) });
+  }
+
   try {
     const user = await User.findOne({ email: email }).exec();
 
