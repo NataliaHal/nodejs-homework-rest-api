@@ -6,9 +6,7 @@ const fs = require("fs/promises");
 
 const  User  = require("../models/users");
 
-// const { HttpError, ctrlWrapper } = require("../helpers");
-
-// const { SECRET_KEY } = process.env;
+const ctrlWrapper = require("../helpers/ctrlWrapper");
 
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
@@ -101,4 +99,9 @@ const updateAvatar = async (req, res) => {
   });
 };
 
-module.exports = { register, login, logout, updateAvatar };
+module.exports = {
+  register: ctrlWrapper(register),
+  login: ctrlWrapper(login),
+  logout: ctrlWrapper(logout),
+  updateAvatar: ctrlWrapper(updateAvatar),
+};

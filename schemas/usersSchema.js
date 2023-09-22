@@ -23,7 +23,7 @@ const loginSchema = Joi.object({
 
 const updateSubscriptionSchema = Joi.object({
   subscription: Joi.string()
-    .valid(...subscriptionList)
+    .valid(subscriptionList)
     .required(),
 });
 
