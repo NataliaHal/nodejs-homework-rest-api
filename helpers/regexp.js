@@ -1,5 +1,5 @@
-const emailRegexp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
+const emailRegExp = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 module.exports = {
-  emailRegexp,
+  emailRegExp,
 };

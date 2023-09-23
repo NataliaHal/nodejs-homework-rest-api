@@ -1,13 +1,15 @@
 const HttpError = require("./HttpError");
-const  emailRegexp  = require("./regexp");
+const emailRegExp = require("./regexp");
 const  subscriptionList  = require("./subscriptionList");
 const  ctrlWrapper  = require("./ctrlWrapper");
-const  userValidationSchemas  = require("./userValidationSchemas");
+const userValidationSchemas = require("./userValidationSchemas");
+const sendEmail = require("./sendEmail");
 
 module.exports = {
   HttpError,
-  emailRegexp,
+  emailRegExp,
   subscriptionList,
   ctrlWrapper,
   userValidationSchemas,
+  sendEmail,
 };

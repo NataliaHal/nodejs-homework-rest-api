@@ -1,8 +1,5 @@
 const Joi = require("joi");
-const {
-  emailRegexp,
-  subscriptionList,
-} = require("../helpers");
+const { emailRegExp, subscriptionList } = require("../helpers");
 
 const userSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
@@ -12,24 +9,31 @@ const userSchema = Joi.object({
 });
 
 const registerSchema = Joi.object({
-  email: Joi.string().email().required(), // Використовуйте .email() для перевірки на коректний email
+  email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
 });
 
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegExp).required(),
+});
+
 const loginSchema = Joi.object({
-  email: Joi.string().email().required(), // Тут також використовуйте .email()
+  email: Joi.string().email().required(), 
   password: Joi.string().min(6).required(),
 });
 
 const updateSubscriptionSchema = Joi.object({
   subscription: Joi.string()
-    .valid(subscriptionList)
+    .pattern(new RegExp(`^(${subscriptionList.join("|")})$`))
     .required(),
 });
+
+
 
 module.exports = {
   registerSchema,
   loginSchema,
   updateSubscriptionSchema,
   userSchema,
+  emailSchema,
 };
