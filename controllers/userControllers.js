@@ -1,19 +1,21 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/users");
+const  User  = require("../models/users");
+
+const { registrationSchema } = require("../schemas/usersSchema");
 
 const saltRounds = 10;
 
 async function registerUser(req, res, next) {
   try {
-    const { error } = registrationSchema.validate(req.body);
+    const { error } = registrationSchema.validate(req.body);  
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
     const { email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email });
     if (existingUser) {
       return res.status(409).json({ message: "Email in use" });
     }
@@ -37,7 +39,7 @@ async function loginUser(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email: email }).exec();
 
     if (!user) {
       return res
@@ -59,7 +61,7 @@ async function loginUser(req, res, next) {
       },
       process.env.JWT_TOKEN,
       {
-        expiresIn: 3600,
+        expiresIn: 86400,
       }
     );
 
