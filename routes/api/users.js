@@ -5,11 +5,11 @@ const jsonParser = express.json();
 const schemas = require("../../schemas");
 const { validateBody, authenticate, upload } = require("../../middlewares");
 const ctrl = require("../../controllers/authController");
-const updateAvatar = require("../../controllers/authController");
 const avatarsDir = require('../../controllers/authController');
 const User = require("../../models/users"); 
 const fs = require("../../controllers/authController");
 const Joi = require("joi");
+
 
 
 var Jimp = require("jimp");
@@ -20,9 +20,24 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/register", jsonParser, ctrl.register);
 
+router.get("/verify/:verificationCode", ctrl.verifyEmail);
+
+router.post(
+  "/verify",
+  validateBody(schemas.emailSchema),
+  ctrl.resendVerifyEmail
+);
+
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
 router.post("/logout", AuthController.logout);
+
+router.patch(
+  "/",
+  authenticate,
+  validateBody(schemas.updateSubscriptionSchema),
+  ctrl.updateSubscription
+);
 
 
 router.patch(
